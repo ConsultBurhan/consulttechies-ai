@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Babji Consult Techies — Enterprise AI that understands your business</title>
+    <meta name="description" content="Babji Consult Techies builds enterprise AI that connects to your databases, documents and systems, so anyone can ask a business question and get a grounded answer, chart or report." />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0e0f" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://consulttechies.ai/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Babji Consult Techies" />
+    <meta property="og:title" content="Babji Consult Techies — Enterprise AI that understands your business" />
+    <meta property="og:description" content="Ask your business anything. An AI layer connected to your data, documents and systems." />
+    <meta property="og:url" content="https://consulttechies.ai/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Babji Consult Techies — Enterprise AI that understands your business" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Babji Consult Techies","alternateName":"BCT","foundingDate":"2023","description":"IT solutions company specializing in web development, application development, CRM management and enterprise AI."}</script>
+    <script>
+      // set theme before first paint: saved choice, else the OS preference
+      (function () {
+        try {
+          var t = localStorage.getItem('bct-theme');
+          if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript><p style="padding:2rem;font-family:sans-serif">Babji Consult Techies builds enterprise AI, web, application and CRM solutions. Please enable JavaScript to view this site.</p></noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

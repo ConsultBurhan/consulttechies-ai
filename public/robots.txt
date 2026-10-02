@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://consulttechies.ai/sitemap.xml
