@@ -12,7 +12,7 @@ export function ProblemShift() {
     <section className="shift" ref={ref} aria-labelledby="shift-title">
       <div className="shift__pin">
         <div className="shift__copy">
-          <span className="eyebrow">The problem · the shift</span>
+          <span className="eyebrow">BCT / THE PROBLEM</span>
           <div className="shift__swap">
             <h2 id="shift-title" className="display shift__a">To answer one question, your people open <em>nine tabs.</em></h2>
             <p className="display shift__b" aria-hidden="false">Now they <em>just ask.</em></p>

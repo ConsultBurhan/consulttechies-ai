@@ -2,15 +2,15 @@ import { useState } from 'react'
 import { BarList, DivergingBars, TrendLine } from './charts'
 import { REGIONS, type Result } from './scenarios'
 
-const Kpi = ({ label, value, delta, tone }: { label: string; value: string; delta?: string; tone?: 'up' | 'down' }) => (
-  <div className="kpi"><span>{label}</span><b>{value}</b>{delta && <em className={tone === 'down' ? 'warm' : 'cool'}>{delta}</em>}</div>
+export const Kpi = ({ label, value, delta, tone }: { label: string; value: string; delta?: string; tone?: 'up' | 'down' }) => (
+  <div className="kpi"><span>{label}</span><b>{value}</b>{delta && <em className={tone === 'down' ? 'neg' : 'cool'}>{delta}</em>}</div>
 )
-const Insight = ({ children, label = 'Insight' }: { children: React.ReactNode; label?: string }) => (
+export const Insight = ({ children, label = 'Insight' }: { children: React.ReactNode; label?: string }) => (
   <div className="insight"><span className="insight__label">{label}</span><p>{children}</p></div>
 )
-const Src = ({ children }: { children: React.ReactNode }) => <p className="srcline"><span aria-hidden="true">↳</span> {children}</p>
+export const Src = ({ children }: { children: React.ReactNode }) => <p className="srcline"><span aria-hidden="true">↳</span> {children}</p>
 
-function ReportResult() {
+export function ReportResult() {
   const [note, setNote] = useState('')
   return (
     <div className="report">
@@ -49,8 +49,8 @@ export function ResultView({ result }: { result: Result }) {
         <p className="chart-title">Revenue vs target <span className="legend"><i className="lg-bar" />Actual <i className="lg-tick" />Target</span></p>
         <BarList label="Revenue against target by region" target rows={REGIONS.map((r) => ({ name: r.name, value: r.rev, target: r.target }))} highlight={(r) => (r.target ?? 0) > r.value} />
         <div className="flags">
-          <div><b className="warm">East</b><span>$0.5M below target (−36%)</span></div>
-          <div><b className="warm">South</b><span>$0.3M below target (−20%)</span></div>
+          <div><b className="neg">East</b><span>$0.5M below target (−36%)</span></div>
+          <div><b className="neg">South</b><span>$0.3M below target (−20%)</span></div>
         </div>
         <Insight label="Identified issue">East and South are behind plan. North and West are ahead, so the gap is regional, not company-wide.</Insight>
         <Src>Sales database · Customer CRM · Finance ledger — sample data</Src>

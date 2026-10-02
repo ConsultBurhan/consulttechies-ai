@@ -2,12 +2,11 @@ import { PageHeader } from '../components/PageHeader'
 import { SectionHeading } from '../components/SectionHeading'
 import { Reveal } from '../components/Reveal'
 import { ProductDemo } from '../components/demo/ProductDemo'
-import { KnowledgeFlow } from '../components/sections/KnowledgeFlow'
-import { SecuritySection } from '../components/sections/SecuritySection'
-import { LayerDiagram } from '../components/sections/LayerDiagram'
+import { LayerStack3D } from '../components/sections/LayerStack3D'
 import { CTASection } from '../components/CTASection'
 import { Button } from '../components/Button'
 import { MODES } from '../components/demo/scenarios'
+import { PredictionSection } from '../components/forecast'
 import { useSeo } from '../hooks/useSeo'
 
 const CAPS = [
@@ -16,14 +15,14 @@ const CAPS = [
   ['Grounded in your knowledge', 'Retrieval-augmented generation draws on your trusted documents before answering.'],
   ['Connected to your data', 'Works with SQL, Oracle, MongoDB and other organizational databases, in natural language.'],
   ['Adapted to your company', 'Learns your terminology, business rules, workflows and communication style.'],
-  ['Reports, not just replies', 'Analysis becomes charts, structured reports, Excel spreadsheets and PDFs.'],
+  ['Reports and forecasts', 'Analysis becomes charts, structured reports, Excel spreadsheets and PDFs. From historical data it can also estimate likely trends, as estimates to plan with, not guarantees.'],
 ] as const
 
 export default function Product() {
   useSeo({ title: 'Enterprise AI Assistant', path: '/product', description: 'BCT Context is an enterprise AI assistant that connects to your databases, documents and systems. Ask in natural language and get grounded answers, charts and reports.' })
   return (
     <div className="page">
-      <PageHeader eyebrow="Product · BCT Context" title={<>An AI assistant that understands <em>how your business works.</em></>}
+      <PageHeader eyebrow="BCT / PRODUCT" title={<>An AI assistant that understands <em>how your business works.</em></>}
         lede="Context connects to your existing databases, documents and systems, then lets people interact with that information in natural language. Questions in. Answers, analysis and reports out.">
         <div className="hero__ctas"><Button to="/contact" size="lg" arrow>Request a demo</Button><Button href="#demo" variant="ghost" size="lg">Try the simulation</Button></div>
       </PageHeader>
@@ -35,7 +34,8 @@ export default function Product() {
         </div>
       </section>
 
-      <LayerDiagram />
+      <LayerStack3D />
+      <PredictionSection eyebrow="AI / FORECAST" />
 
       <section className="section" aria-labelledby="cap-title">
         <div className="container">
@@ -61,9 +61,7 @@ export default function Product() {
         </div>
       </section>
 
-      <KnowledgeFlow />
-      <SecuritySection />
-      <CTASection />
+      <CTASection variant="link" />
     </div>
   )
 }

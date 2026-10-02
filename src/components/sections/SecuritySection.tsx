@@ -20,7 +20,7 @@ export function SecuritySection({ id = 'security' }: { id?: string }) {
   return (
     <section className="section" id={id} aria-labelledby="sec-title">
       <div className="container">
-        <SectionHeading eyebrow="Security" title={<span id="sec-title">Security is part of the architecture, <em>not an afterthought.</em></span>} lede="An assistant that knows your business has to respect your boundaries. Access control is built into how information is retrieved, not bolted on afterwards." />
+        <SectionHeading eyebrow="SECURITY / BY DESIGN" title={<span id="sec-title">Security is part of the architecture, <em>not an afterthought.</em></span>} lede="An assistant that knows your business has to respect your boundaries. Access control is built into how information is retrieved, not bolted on afterwards." />
         <div className="sec">
           <div className="sec__demo">
             <p className="side__h">Same question: “Show me payroll by team.”</p>

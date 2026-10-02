@@ -1,5 +1,4 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Button } from '../Button'
 import { usePrefersReducedMotion } from '../../hooks/useMotion'
 import { NET_NODES, SOURCES_FOR } from './network'
@@ -20,6 +19,7 @@ function canUseWebGL() {
 }
 
 const STAGES = ['Understanding the question', 'Retrieving company data', 'Analyzing results', 'Writing the answer'] as const
+const STATE = ['PARSING', 'RETRIEVING', 'ANALYZING', 'COMPOSING'] as const
 
 function MiniAnswer({ a }: { a: HeroAnswer }) {
   if (a.kind === 'bars') {
@@ -92,7 +92,7 @@ export function Hero() {
         ) : <HeroFallback active={active} working={phase === 'working'} />}
         {webgl && (
           <div className="hero__labels" aria-hidden="true">
-            {NET_NODES.map((n) => <span key={n.id} className={`nlabel nlabel--${n.kind}`} ref={(el) => { labels.current[n.id] = el }}><i />{n.label}</span>)}
+            {NET_NODES.map((n, i) => <span key={n.id} className={`nlabel nlabel--${n.kind}`} ref={(el) => { labels.current[n.id] = el }}><i>{String(i + 1).padStart(2, '0')}</i>{n.label}</span>)}
           </div>
         )}
         <div className="hero__grid" aria-hidden="true" />
@@ -100,21 +100,21 @@ export function Hero() {
 
       <div className="container hero__content">
         <div className="hero__copy">
-          <span className="eyebrow hero__eyebrow">Enterprise AI · {`BCT Context`}</span>
-          <h1 id="hero-title" className="display">Ask your business <em>anything.</em></h1>
-          <p className="lede">Context is the AI layer for your organization. It connects to your databases, documents and systems, so anyone can ask a question and get an answer grounded in your own data.</p>
+          <span className="eyebrow hero__eyebrow">BCT / INTELLIGENCE</span>
+          <h1 id="hero-title" className="display">Your business has the data. <span className="hero__line2">Give it an <em>intelligence layer.</em></span></h1>
+          <p className="lede">An AI assistant that connects with your organization’s knowledge, data and systems, turning questions into insights, reports and predictions.</p>
 
           <form className="ask" onSubmit={submit} aria-label="Try a sample question">
             <label htmlFor="ask-input" className="visually-hidden">Ask a sample question</label>
+            <span className="ask__prefix mono" aria-hidden="true">QUERY_001</span>
             <input id="ask-input" value={text} onChange={(e) => setText(e.target.value)} placeholder="Show me our sales performance for Q3." autoComplete="off" />
             <button type="submit" className="ask__go" aria-label="Ask">
-              <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </button>
           </form>
           <div className="chips" role="group" aria-label="Sample questions">
-            {HERO_PROMPTS.map((p) => <button key={p.id} className="chip" onClick={() => ask(p.id)}>{p.text.replace(/\.$/, '')}</button>)}
+            {HERO_PROMPTS.map((p) => <button key={p.id} className="chip" onClick={() => ask(p.id)}>{p.chip}</button>)}
           </div>
-          <p className="hero__note">Simulation with sample data. See the <Link to="/product#demo" className="link">full interactive demo</Link>.</p>
 
           <div className="hero__ctas">
             <Button to="/contact" size="lg" arrow>Request a demo</Button>
@@ -122,7 +122,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div ref={miniRef} className={`mini ${phase !== 'idle' ? 'mini--on' : ''}`} aria-live="polite">
+        <div className={`mini ${phase !== 'idle' ? 'mini--on' : ''}`} aria-live="polite" ref={miniRef}>
           {phase === 'working' && (
             <div className="mini__stages">
               <span className="pulse" aria-hidden="true" />
@@ -131,6 +131,15 @@ export function Hero() {
             </div>
           )}
           {phase === 'done' && <div className="mini__answer" key={promptId}><MiniAnswer a={answer} /><span className="mini__tag">Sample data</span></div>}
+        </div>
+      </div>
+
+      <div className="hero__status mono" role="status" aria-label="System status">
+        <div className="container hero__status-row">
+          <span><i className="dot" /> SYSTEM / CONNECTED</span>
+          <span>SOURCES / {String(NET_NODES.length).padStart(2, '0')}</span>
+          <span>AI_LAYER / {phase === 'working' ? 'ACTIVE' : 'READY'}</span>
+          <span className="hero__status-q">QUERY_001 / {phase === 'idle' ? 'AWAITING INPUT' : phase === 'working' ? STATE[stage] : 'ANALYSIS COMPLETE'}</span>
         </div>
       </div>
     </section>

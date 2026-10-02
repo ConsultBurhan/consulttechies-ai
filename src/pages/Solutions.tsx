@@ -1,9 +1,10 @@
 import { PageHeader } from '../components/PageHeader'
-import { AudiencesSection } from '../components/sections/AudiencesSection'
+import { RoleCube } from '../components/sections/RoleCube'
 import { LessMore } from '../components/sections/LessMore'
 import { CTASection } from '../components/CTASection'
 import { Reveal } from '../components/Reveal'
 import { SectionHeading } from '../components/SectionHeading'
+import { ProblemShift } from '../components/sections/ProblemShift'
 import { useSeo } from '../hooks/useSeo'
 
 const CASES = [
@@ -19,9 +20,10 @@ export default function Solutions() {
   useSeo({ title: 'Solutions & Use Cases', path: '/solutions', description: 'How employees, managers and leadership use an enterprise AI assistant: onboarding, business questions, data analysis, reporting and decision support.' })
   return (
     <div className="page">
-      <PageHeader eyebrow="Solutions" title={<>One assistant. <em>Every level of the organization.</em></>}
+      <PageHeader eyebrow="BCT / SOLUTIONS" title={<>One assistant. <em>Every level of the organization.</em></>}
         lede="Context is not a tool for executives alone. It gives new joiners, teams, managers and leadership the same thing: a direct way to ask the organization a question." />
-      <AudiencesSection />
+      <ProblemShift />
+      <RoleCube />
       <section className="section" aria-labelledby="uc-title">
         <div className="container">
           <SectionHeading eyebrow="Use cases" title={<span id="uc-title">What people <em>ask.</em></span>} lede="Examples of questions, and what changes when they can be answered in seconds." />
@@ -36,7 +38,7 @@ export default function Solutions() {
         </div>
       </section>
       <LessMore />
-      <CTASection title={<>Tell us the question your team asks <em>every week.</em></>} body="We will show you what it looks like when the organization can answer it." />
+      <CTASection variant="split" title={<>Tell us the question your team asks <em>every week.</em></>} body="We will show you what it looks like when the organization can answer it." />
     </div>
   )
 }

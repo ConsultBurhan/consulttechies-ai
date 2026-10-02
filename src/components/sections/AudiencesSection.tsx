@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { SectionHeading } from '../SectionHeading'
+import { PinnedStory, type PinStep } from '../PinnedStory'
 
 export const AUDIENCES = [
   { id: 'new', label: 'New employees', q: 'What process should I follow to request equipment?', line: 'Find their feet faster.', points: ['How does our organization work?', 'Who manages this department?', 'What are the business norms?'], flow: null },
@@ -9,32 +8,14 @@ export const AUDIENCES = [
 ] as const
 
 export function AudiencesSection() {
-  const [i, setI] = useState(0)
-  const a = AUDIENCES[i]
-  return (
-    <section className="section section--tint" aria-labelledby="au-title">
-      <div className="container">
-        <SectionHeading eyebrow="For everyone" title={<span id="au-title">Not just for executives. <em>For the whole organization.</em></span>} lede="Everyone has questions about the business. Context gives each person the answer that fits their role." />
-        <div className="au">
-          <div className="au__tabs" role="tablist" aria-label="Audience">
-            {AUDIENCES.map((x, n) => (
-              <button key={x.id} role="tab" aria-selected={i === n} aria-controls="au-panel" id={`au-${x.id}`} tabIndex={i === n ? 0 : -1} className={i === n ? 'on' : ''} onClick={() => setI(n)}
-                onKeyDown={(e) => { if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); setI((n + 1) % 4) } if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); setI((n + 3) % 4) } }}>
-                <span className="mono">0{n + 1}</span>{x.label}
-              </button>
-            ))}
-          </div>
-          <div className="au__panel" id="au-panel" role="tabpanel" aria-labelledby={`au-${a.id}`} key={a.id}>
-            <h3 className="display">{a.line}</h3>
-            <div className="msg msg--user"><p>{a.q}</p></div>
-            {a.flow ? (
-              <ol className="chain">{a.flow.map((f) => <li key={f}>{f}</li>)}</ol>
-            ) : (
-              <ul className="ticks">{a.points.map((p) => <li key={p}>{p}</li>)}</ul>
-            )}
-          </div>
-        </div>
+  const steps: PinStep[] = AUDIENCES.map((a) => ({
+    id: `aud-${a.id}`, label: a.label, title: a.line,
+    vis: (
+      <div className="au-card glass-card">
+        <div className="msg msg--user"><p>{a.q}</p></div>
+        {a.flow ? <ol className="chain">{a.flow.map((f) => <li key={f}>{f}</li>)}</ol> : <ul className="ticks">{a.points.map((p) => <li key={p}>{p}</li>)}</ul>}
       </div>
-    </section>
-  )
+    ),
+  }))
+  return <PinnedStory id="value-story" label="Value for everyone" eyebrow="03 / VALUE FOR EVERYONE" title={<span>Not just for executives. <em>For the whole organization.</em></span>} lede="Everyone has questions about the business. Context gives each person the answer that fits their role." steps={steps} dwell={0.7} center />
 }

@@ -1,107 +1,81 @@
-/* ───────── BCT design tokens ─────────
-   Two hues carry meaning, taken from the brand mark:
-   warm (orange→red)  = people, questions, the human side
-   cool (teal→blue)   = data, systems, the machine side
-   Everything else is paper and graphite. */
+/* ───────── BCT design tokens — built from the logo ─────────
+   Logo palette:  deep blue #006A9F · blue #0082BD · teal #1DBCBF / #27BDBE · charcoal #333132
+                  red #D71635 · coral #EF4056 · orange #F17F2A / #F18721
+   Roles (the system is ~85% neutral):
+     --brand   blue family: primary actions, the identity            --accent  teal: small technical signals, active states, links
+     --warm    orange: selective emphasis only (projections, targets, the AI core)
+     --bad     coral red: reserved for declines and flags            --cool    alias of --accent (kept for existing components)
+   Dark is layered charcoal (bg → bg-2 → surface → surface-2 → raised), never pure black. Light is cool off-white with blue-teal tinted surfaces. */
 :root {
-  /* type */
-  --font-sans: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Geist Variable', 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: var(--font-sans); /* legacy alias: display text is set in the same family */
   --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --step--2: clamp(0.70rem, 0.69rem + 0.05vw, 0.74rem);
-  --step--1: clamp(0.80rem, 0.78rem + 0.1vw, 0.86rem);
-  --step-0: clamp(0.98rem, 0.94rem + 0.2vw, 1.08rem);
+  --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.88rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
   --step-1: clamp(1.15rem, 1.08rem + 0.35vw, 1.35rem);
   --step-2: clamp(1.4rem, 1.25rem + 0.7vw, 1.8rem);
-  --step-3: clamp(1.8rem, 1.5rem + 1.4vw, 2.7rem);
-  --step-4: clamp(2.3rem, 1.7rem + 2.8vw, 4rem);
-  --step-5: clamp(2.9rem, 1.8rem + 5vw, 6.2rem);
+  --step-3: clamp(1.8rem, 1.5rem + 1.4vw, 2.6rem);
+  --step-4: clamp(2.4rem, 1.7rem + 3vw, 4.2rem);
+  --step-5: clamp(3rem, 1.6rem + 6vw, 7rem);
 
-  /* space */
   --s-1: 0.25rem; --s-2: 0.5rem; --s-3: 0.75rem; --s-4: 1rem; --s-5: 1.5rem;
-  --s-6: 2rem; --s-7: 3rem; --s-8: 4.5rem; --s-9: 7rem; --s-10: clamp(5rem, 4rem + 6vw, 10rem);
+  --s-6: 2rem; --s-7: 3rem; --s-8: 5rem; --s-9: 8rem; --s-10: clamp(4.5rem, 3rem + 5vw, 8rem);
 
-  /* shape */
-  --r-1: 4px; --r-2: 8px; --r-3: 14px; --r-pill: 999px;
+  --r-1: 4px; --r-2: 8px; --r-3: 12px; --r-pill: 8px; --r-full: 999px; /* considered radii: soft but not bubbly */
 
-  /* motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-1: 160ms; --dur-2: 320ms; --dur-3: 700ms; --dur-4: 1100ms;
 
-  /* layout */
-  --container: 1240px;
+  --container: 1280px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --nav-h: 68px;
+
 }
 
-/* light — warm paper, graphite ink */
-:root, :root[data-theme='light'] {
-  color-scheme: light;
-  --bg: #f4f1ea;
-  --bg-2: #ece8df;
-  --surface: #fbfaf6;
-  --surface-2: #ffffff;
-  --ink: #16191a;
-  --ink-2: #4a504f;
-  --ink-3: #5d6361;
-  --line: rgba(22, 25, 26, 0.12);
-  --line-2: rgba(22, 25, 26, 0.22);
-  --warm: #e0661a;        /* fills, marks */
-  --warm-text: #a63d06;
-  --cool: #0d9aa3;
-  --cool-text: #00698f;
-  --warm-soft: rgba(224, 102, 26, 0.12);
-  --cool-soft: rgba(13, 154, 163, 0.12);
-  --on-ink: #f4f1ea;
-  --grid: rgba(22, 25, 26, 0.07);
-  --shadow-1: 0 1px 2px rgba(30, 24, 10, 0.06), 0 8px 24px -12px rgba(30, 24, 10, 0.18);
-  --shadow-2: 0 2px 4px rgba(30, 24, 10, 0.05), 0 30px 70px -30px rgba(30, 24, 10, 0.35);
-  --chart-1: #0b7f9c; --chart-2: #e0661a; --chart-neutral: #b9b4a8;
-  --good: #1c7a4f; --bad: #b8322f;
-  --scene-fade: rgba(244, 241, 234, 0);
-}
-
-/* dark — deep graphite, not an inversion: warmer ink, quieter lines, brighter marks */
-:root[data-theme='dark'] {
+/* TOKEN SETS — defined once as .tone-dark / .tone-light so any band can invert against the page theme */
+:root, :root[data-theme='dark'], .tone-dark {
   color-scheme: dark;
-  --bg: #0b0e0f;
-  --bg-2: #101415;
-  --surface: #131819;
-  --surface-2: #181e20;
-  --ink: #ece8df;
-  --ink-2: #aeb2ad;
-  --ink-3: #7e8581;
-  --line: rgba(236, 232, 223, 0.11);
-  --line-2: rgba(236, 232, 223, 0.22);
-  --warm: #f58a3a;
-  --warm-text: #ff9d57;
-  --cool: #35cfd2;
-  --cool-text: #5fd6e0;
-  --warm-soft: rgba(245, 138, 58, 0.14);
-  --cool-soft: rgba(53, 207, 210, 0.13);
-  --on-ink: #0b0e0f;
-  --grid: rgba(236, 232, 223, 0.06);
-  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 10px 30px -14px rgba(0, 0, 0, 0.7);
-  --shadow-2: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 40px 80px -30px rgba(0, 0, 0, 0.9);
-  --chart-1: #3fc3d6; --chart-2: #f58a3a; --chart-neutral: #4a504f;
-  --good: #4fc58a; --bad: #ff7a73;
-  --scene-fade: rgba(11, 14, 15, 0);
+  /* layered charcoal, derived from the logo's #333132 (which is the top "raised" layer) */
+  --bg: #171718; --bg-2: #1c1b1d; --surface: #232224; --surface-2: #2a292b; --raised: #333132;
+  --ink: #e8e7e5; --ink-2: #bcbab9; --ink-3: #8f8d8e; --label: #7f9099;
+  --line: rgba(232, 231, 229, 0.09); --line-2: rgba(232, 231, 229, 0.18);
+  --brand: #0077ae; --brand-hover: #0088c6; --on-brand: #ffffff; --brand-deep: #00537b; --brand-text: #62c3ee; --brand-soft: rgba(0, 130, 189, 0.16);
+  --accent: #27bdbe; --accent-text: #55d6d7; --accent-soft: rgba(39, 189, 190, 0.13);
+  --warm: #f17f2a; --warm-text: #f6a05e; --warm-soft: rgba(241, 127, 42, 0.13);
+  --cool: var(--accent); --cool-text: var(--accent-text); --cool-soft: var(--accent-soft);
+  --on-ink: #171718; --grid: rgba(232, 231, 229, 0.045);
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 30px 60px -30px rgba(0, 0, 0, 0.6);
+  --glass: rgba(35, 34, 36, 0.62); --glass-line: rgba(232, 231, 229, 0.12);
+  --glass-card: rgba(51, 49, 50, 0.38); --glass-tint: rgba(232, 231, 229, 0.045); --glass-hi: rgba(255, 255, 255, 0.07); --glass-shadow: 0 18px 44px -26px rgba(0, 0, 0, 0.7);
+  --blob-a: rgba(0, 130, 189, 0.2); --blob-b: rgba(29, 188, 191, 0.1); --blob-c: rgba(241, 127, 42, 0.09);
+  --chart-1: #4aa9de; --chart-2: #f6a05e; --chart-3: #27bdbe; --chart-neutral: #4a494b;
+  --good: #55d6d7; --bad: #ff6b7d;
+  --atmos: rgba(0, 130, 189, 0.12);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']):not([data-theme='dark']) {
-    color-scheme: dark;
-    --bg: #0b0e0f; --bg-2: #101415; --surface: #131819; --surface-2: #181e20;
-    --ink: #ece8df; --ink-2: #aeb2ad; --ink-3: #7e8581;
-    --line: rgba(236, 232, 223, 0.11); --line-2: rgba(236, 232, 223, 0.22);
-    --warm: #f58a3a; --warm-text: #ff9d57; --cool: #35cfd2; --cool-text: #5fd6e0;
-    --warm-soft: rgba(245, 138, 58, 0.14); --cool-soft: rgba(53, 207, 210, 0.13);
-    --on-ink: #0b0e0f; --grid: rgba(236, 232, 223, 0.06);
-    --shadow-1: 0 10px 30px -14px rgba(0, 0, 0, 0.7);
-    --shadow-2: 0 40px 80px -30px rgba(0, 0, 0, 0.9);
-    --chart-1: #3fc3d6; --chart-2: #f58a3a; --chart-neutral: #4a504f;
-    --good: #4fc58a; --bad: #ff7a73;
-  }
+:root[data-theme='light'], .tone-light {
+  color-scheme: light;
+  --bg: #f5f7f8; --bg-2: #e9f0f3; --surface: #fbfcfc; --surface-2: #ffffff; --raised: #ffffff;
+  --ink: #1f1e20; --ink-2: #424042; --ink-3: #66646a; --label: #5b6a73;
+  --line: rgba(31, 30, 32, 0.11); --line-2: rgba(31, 30, 32, 0.22);
+  --brand: #006a9f; --brand-hover: #0082bd; --on-brand: #ffffff; --brand-deep: #006a9f; --brand-text: #006a9f; --brand-soft: rgba(0, 130, 189, 0.1);
+  --accent: #1dbcbf; --accent-text: #07797c; --accent-soft: rgba(29, 188, 191, 0.14);
+  --warm: #e0701c; --warm-text: #a94d08; --warm-soft: rgba(241, 127, 42, 0.14);
+  --cool: var(--accent); --cool-text: var(--accent-text); --cool-soft: var(--accent-soft);
+  --on-ink: #f5f7f8; --grid: rgba(31, 30, 32, 0.06);
+  --shadow-1: 0 1px 2px rgba(31, 30, 32, 0.06), 0 6px 18px -10px rgba(0, 106, 159, 0.18);
+  --shadow-2: 0 2px 4px rgba(31, 30, 32, 0.04), 0 30px 60px -34px rgba(0, 106, 159, 0.3);
+  --glass: rgba(255, 255, 255, 0.66); --glass-line: rgba(31, 30, 32, 0.1);
+  --glass-card: rgba(255, 255, 255, 0.5); --glass-tint: rgba(255, 255, 255, 0.55); --glass-hi: rgba(255, 255, 255, 0.9); --glass-shadow: 0 18px 44px -26px rgba(0, 106, 159, 0.38);
+  --blob-a: rgba(0, 130, 189, 0.15); --blob-b: rgba(29, 188, 191, 0.13); --blob-c: rgba(241, 127, 42, 0.1);
+  --chart-1: #0082bd; --chart-2: #e0701c; --chart-3: #1dbcbf; --chart-neutral: #c8d3d8;
+  --good: #07797c; --bad: #d71635;
+  --atmos: rgba(29, 188, 191, 0.14);
 }
+/* an inverted band: dark page → light band, light page → dark band */
+:root[data-theme='dark'] .invert { color-scheme: light; --bg: #f5f7f8; --bg-2: #e9f0f3; --surface: #fbfcfc; --surface-2: #fff; --ink: #1f1e20; --ink-2: #424042; --ink-3: #66646a; --line: rgba(31,30,32,.11); --line-2: rgba(31,30,32,.22); --brand: #006a9f; --brand-text: #006a9f; --accent: #1dbcbf; --accent-text: #07797c; --accent-soft: rgba(29,188,191,.14); --warm: #e0701c; --warm-text: #a94d08; --on-ink: #f5f7f8; --grid: rgba(31,30,32,.06); --chart-1: #0082bd; --chart-2: #e0701c; --bad: #d71635; }
+:root[data-theme='light'] .invert { color-scheme: dark; --bg: #171718; --bg-2: #1c1b1d; --surface: #232224; --surface-2: #2a292b; --ink: #e8e7e5; --ink-2: #bcbab9; --ink-3: #8f8d8e; --line: rgba(232,231,229,.09); --line-2: rgba(232,231,229,.18); --brand: #0077ae; --brand-text: #62c3ee; --accent: #27bdbe; --accent-text: #55d6d7; --accent-soft: rgba(39,189,190,.13); --warm: #f17f2a; --warm-text: #f6a05e; --on-ink: #171718; --grid: rgba(232,231,229,.045); --chart-1: #4aa9de; --chart-2: #f6a05e; --bad: #ff6b7d; }
+.invert { background: var(--bg); color: var(--ink); }

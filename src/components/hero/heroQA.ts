@@ -5,9 +5,9 @@ export type HeroAnswer =
   | { kind: 'steps'; title: string; steps: string[] }
 
 export const HERO_PROMPTS = [
-  { id: 'sales', text: 'Show me our sales performance for Q3.', sources: 'sales' },
-  { id: 'ops', text: 'Who manages the operations department?', sources: 'people' },
-  { id: 'onboard', text: 'Explain our onboarding process.', sources: 'people' },
+  { id: 'sales', chip: 'Q3 sales performance', text: 'Show me our sales performance for Q3.', sources: 'sales' },
+  { id: 'ops', chip: 'Who runs operations?', text: 'Who manages the operations department?', sources: 'people' },
+  { id: 'onboard', chip: 'Onboarding process', text: 'Explain our onboarding process.', sources: 'people' },
 ] as const
 
 export const HERO_ANSWERS: Record<string, HeroAnswer> = {

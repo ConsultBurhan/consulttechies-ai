@@ -40,7 +40,7 @@ export function DivergingBars({ rows, label }: { rows: { name: string; value: nu
           <span className="div__track">
             <i className={r.value >= 0 ? 'up' : 'down'} style={{ '--w': `${(Math.abs(r.value) / m) * 50}%`, '--i': i } as React.CSSProperties} />
           </span>
-          <span className={`bars__val ${r.value >= 0 ? 'cool' : 'warm'}`}>{r.value > 0 ? '+' : '−'}{Math.abs(r.value)}%<span className="visually-hidden">{r.value >= 0 ? ' increase' : ' decrease'}</span></span>
+          <span className={`bars__val ${r.value >= 0 ? 'cool' : 'neg'}`}>{r.value > 0 ? '+' : '−'}{Math.abs(r.value)}%<span className="visually-hidden">{r.value >= 0 ? ' increase' : ' decrease'}</span></span>
         </li>
       ))}
     </ul>

@@ -1,40 +1,30 @@
 import { Hero } from '../components/hero/Hero'
-import { ProblemShift } from '../components/sections/ProblemShift'
-import { LayerDiagram } from '../components/sections/LayerDiagram'
-import { WorkflowSection } from '../components/sections/WorkflowSection'
-import { KnowledgeFlow } from '../components/sections/KnowledgeFlow'
-import { AdaptSection } from '../components/sections/AdaptSection'
+import { ProductSection } from '../components/sections/ProductSection'
+import { CapabilitiesSection } from '../components/sections/CapabilitiesSection'
 import { AudiencesSection } from '../components/sections/AudiencesSection'
-import { SecuritySection } from '../components/sections/SecuritySection'
-import { TechnologySection } from '../components/sections/TechnologySection'
-import { LessMore } from '../components/sections/LessMore'
-import { CompanyTeaser } from '../components/sections/CompanyTeaser'
+import { TechnologyTrust } from '../components/sections/TechnologyTrust'
+import { BrandBand } from '../components/sections/BrandBand'
+import { ChapterRail } from '../components/ChapterRail'
 import { CTASection } from '../components/CTASection'
-import { SectionHeading } from '../components/SectionHeading'
-import { ProductDemo } from '../components/demo/ProductDemo'
 import { useSeo } from '../hooks/useSeo'
 
+/** Six beats: hero, product, capabilities, value, technology + trust, company + call to action.
+ *  Each is a [data-chapter] wrapper: ChapterRail reads them today; scroll-driven scenes can hook in later. */
+const Chapter = ({ n, label, id, children }: { n: string; label: string; id: string; children: React.ReactNode }) => (
+  <div className="chapter" id={id} data-chapter={n} data-label={label}>{children}</div>
+)
+
 export default function Home() {
-  useSeo({ title: 'Home', path: '/', description: 'Babji Consult Techies builds enterprise AI that connects to your databases, documents and systems, so anyone can ask a business question and get a grounded answer, chart or report.' })
+  useSeo({ title: 'Home', path: '/', description: 'Babji Consult Techies builds enterprise AI that connects to your databases, documents and systems, so anyone can ask a business question and get a grounded answer, chart, report or forecast.' })
   return (
     <div className="page">
-      <Hero />
-      <ProblemShift />
-      <LayerDiagram />
-      <section className="section section--tint" id="demo" aria-labelledby="demo-title">
-        <div className="container">
-          <SectionHeading eyebrow="See it work" title={<span id="demo-title">Ask. Understand. Analyze. <em>Visualize.</em></span>} lede="A simulation of the assistant at work, using sample data. Choose a question and watch it go from sentence to insight." />
-          <ProductDemo />
-        </div>
-      </section>
-      <WorkflowSection />
-      <KnowledgeFlow />
-      <AdaptSection />
-      <AudiencesSection />
-      <SecuritySection />
-      <TechnologySection />
-      <LessMore />
-      <CompanyTeaser />
+      <ChapterRail />
+      <Chapter n="00" label="Intro" id="intro"><Hero /></Chapter>
+      <Chapter n="01" label="Product" id="product"><ProductSection /></Chapter>
+      <Chapter n="02" label="Capabilities" id="caps"><CapabilitiesSection /></Chapter>
+      <Chapter n="03" label="Value" id="value"><AudiencesSection /></Chapter>
+      <Chapter n="04" label="Technology" id="tech"><TechnologyTrust /></Chapter>
+      <Chapter n="05" label="BCT" id="bct"><BrandBand /></Chapter>
       <CTASection />
     </div>
   )

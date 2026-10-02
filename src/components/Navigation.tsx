@@ -6,8 +6,11 @@ import { Button } from './Button'
 import { ThemeToggle } from './ThemeToggle'
 
 export function BrandLockup() {
+  const { pathname } = useLocation()
+  // already on the homepage: the link alone would do nothing, so scroll back to the top
+  const home = () => { if (pathname === '/') window.scrollTo({ top: 0, behavior: 'smooth' }) }
   return (
-    <Link to="/" className="brand" aria-label={`${SITE.name} — home`}>
+    <Link to="/" className="brand" aria-label={`${SITE.name} — home`} onClick={home}>
       <Logo className="brand__mark" />
       <span className="brand__word">Babji <b>Consult</b> Techies</span>
     </Link>
@@ -55,6 +58,7 @@ export function Navigation() {
         </nav>
         <div className="nav__actions">
           <ThemeToggle />
+          <Link to="/product#demo" className="nav__ask"><i aria-hidden="true" />Ask Context</Link>
           <span className="nav__cta"><Button to="/contact" size="md">Request a demo</Button></span>
           <button className="burger" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>
             <span /><span />

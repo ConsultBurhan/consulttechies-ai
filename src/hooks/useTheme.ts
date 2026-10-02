@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 export type Theme = 'light' | 'dark'
 const KEY = 'bct-theme'
 
-const systemTheme = (): Theme => (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+// dark-first: the identity is designed dark; light is an explicit, saved choice
+const systemTheme = (): Theme => 'dark'
 const stored = (): Theme | null => {
   try { const v = localStorage.getItem(KEY); return v === 'light' || v === 'dark' ? v : null } catch { return null }
 }
@@ -11,14 +12,6 @@ const apply = (t: Theme) => document.documentElement.setAttribute('data-theme', 
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => (document.documentElement.getAttribute('data-theme') as Theme) || stored() || systemTheme())
-
-  // follow the OS only until the visitor makes an explicit choice
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)')
-    const on = () => { if (!stored()) { const t = systemTheme(); apply(t); setTheme(t) } }
-    mq.addEventListener('change', on)
-    return () => mq.removeEventListener('change', on)
-  }, [])
 
   const toggle = useCallback((origin?: { x: number; y: number }) => {
     const next: Theme = theme === 'dark' ? 'light' : 'dark'

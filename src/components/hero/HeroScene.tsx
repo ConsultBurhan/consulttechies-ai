@@ -4,11 +4,11 @@ import * as THREE from 'three'
 import { NET_NODES, type NetNode } from './network'
 
 export type ScenePhase = 'idle' | 'working' | 'done'
-type Palette = { warm: THREE.Color; cool: THREE.Color; ink: THREE.Color; line: THREE.Color }
+type Palette = { warm: THREE.Color; cool: THREE.Color; brand: THREE.Color; ink: THREE.Color; line: THREE.Color }
 
 const css = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 const readPalette = (): Palette => ({
-  warm: new THREE.Color(css('--warm')), cool: new THREE.Color(css('--cool')),
+  warm: new THREE.Color(css('--warm')), cool: new THREE.Color(css('--accent')), brand: new THREE.Color(css('--brand-hover')),
   ink: new THREE.Color(css('--ink')), line: new THREE.Color(css('--ink-3')),
 })
 
@@ -40,8 +40,25 @@ function Network({ phase, active, labelRefs, calm }: Props) {
   const coreWire = useRef<THREE.MeshBasicMaterial>(null)
   const coreSolid = useRef<THREE.MeshBasicMaterial>(null)
   const nodeMats = useRef<(THREE.MeshBasicMaterial | null)[]>([])
-  const { camera, size, invalidate, pointer } = useThree()
+  const { camera, size, invalidate, gl } = useThree()
   const energy = useRef(0)
+  const kick = useRef(0)
+  const nodeMeshes = useRef<(THREE.Mesh | null)[]>([])
+  // cursor anywhere on the page, relative to the canvas: ndc for the lean, px for node proximity
+  const cur = useRef({ nx: 0, ny: 0, x: -9999, y: -9999, sx: 0, sy: 0, near: false })
+  useEffect(() => {
+    if (calm) return
+    const move = (e: PointerEvent) => {
+      const r = gl.domElement.getBoundingClientRect(), c = cur.current
+      c.x = e.clientX - r.left; c.y = e.clientY - r.top
+      c.nx = THREE.MathUtils.clamp((c.x / r.width) * 2 - 1, -1.4, 1.4); c.ny = THREE.MathUtils.clamp(-((c.y / r.height) * 2 - 1), -1.4, 1.4)
+      c.near = c.x > -80 && c.x < r.width + 80 && c.y > -80 && c.y < r.height + 80
+    }
+    const away = () => { cur.current.near = false }
+    const down = () => { kick.current = 1 } // a click sends a pulse of data through the network
+    window.addEventListener('pointermove', move); window.addEventListener('pointerdown', down); document.addEventListener('pointerleave', away)
+    return () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerdown', down); document.removeEventListener('pointerleave', away) }
+  }, [gl, calm])
   const tmp = useMemo(() => new THREE.Vector3(), [])
 
   const nodes = useMemo(() => NET_NODES.map((n) => ({ ...n, v: new THREE.Vector3(...n.pos) })), [])
@@ -65,17 +82,20 @@ function Network({ phase, active, labelRefs, calm }: Props) {
 
   useFrame((state, dt) => {
     const t = state.clock.elapsedTime
-    const target = phase === 'working' ? 1 : phase === 'done' ? 0.35 : 0
+    kick.current = Math.max(0, kick.current - dt * 1.4)
+    const target = Math.max(phase === 'working' ? 1 : phase === 'done' ? 0.35 : 0, kick.current * 0.8)
     energy.current += (target - energy.current) * Math.min(1, dt * 3)
     const e = energy.current
     const p = pal.current
 
+    const c0 = cur.current, k = Math.min(1, dt * 3.2)
+    c0.sx += ((c0.near ? c0.nx : 0) - c0.sx) * k; c0.sy += ((c0.near ? c0.ny : 0) - c0.sy) * k // smoothed, eases back to rest
     if (group.current && !calm) {
-      group.current.rotation.y = Math.sin(t * 0.12) * 0.35 + pointer.x * 0.18
-      group.current.rotation.x = Math.sin(t * 0.09) * 0.08 - pointer.y * 0.1
+      group.current.rotation.y = Math.sin(t * 0.12) * 0.3 + c0.sx * 0.6
+      group.current.rotation.x = Math.sin(t * 0.09) * 0.08 - c0.sy * 0.38
     }
-    if (core.current) { core.current.rotation.y = calm ? 0.5 : t * 0.25; core.current.rotation.x = calm ? 0.4 : t * 0.15; core.current.scale.setScalar(1 + e * 0.08 * Math.sin(t * 6)) }
-    coreWire.current?.color.copy(p.ink); coreSolid.current?.color.copy(p.warm)
+    if (core.current) { core.current.rotation.y = calm ? 0.5 : t * 0.25 + c0.sx * 0.9; core.current.rotation.x = calm ? 0.4 : t * 0.15 - c0.sy * 0.9; core.current.scale.setScalar(1 + e * 0.08 * Math.sin(t * 6)) }
+    coreWire.current?.color.copy(p.ink); coreSolid.current?.color.copy(p.brand)
     if (lineMat.current) { lineMat.current.color.copy(p.line); lineMat.current.opacity = 0.28 + e * 0.35 }
 
     // particles travel source→core when working (data going in) and core→source otherwise (slow idle drift)
@@ -111,9 +131,11 @@ function Network({ phase, active, labelRefs, calm }: Props) {
       tmp.copy(n.v).applyMatrix4(group.current!.matrixWorld).project(camera)
       const x = (tmp.x * 0.5 + 0.5) * size.width, y = (-tmp.y * 0.5 + 0.5) * size.height
       el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`
-      el.dataset.on = active.includes(n.id) && phase !== 'idle' ? '1' : '0'
+      // nodes near the cursor swell and light up with their label
+      const near = c0.near && !calm ? THREE.MathUtils.clamp(1 - Math.hypot(x - c0.x, y - c0.y) / 170, 0, 1) : 0
+      const m = nodeMeshes.current[i]; if (m) m.scale.setScalar(1 + near * 1.1)
+      el.dataset.on = (active.includes(n.id) && phase !== 'idle') || near > 0.45 ? '1' : '0'
       el.style.opacity = String(0.55 + 0.45 * ((tmp.z + 1) < 2 ? 1 : 0.7))
-      void i
     })
     if (calm) invalidate()
   })
@@ -132,7 +154,7 @@ function Network({ phase, active, labelRefs, calm }: Props) {
         <pointsMaterial size={0.1} vertexColors transparent sizeAttenuation depthWrite={false} />
       </points>
       {nodes.map((n: NetNode & { v: THREE.Vector3 }, i) => (
-        <mesh key={n.id} position={n.v} rotation={[0.5, 0.6, 0]}>
+        <mesh key={n.id} ref={(m) => { nodeMeshes.current[i] = m }} position={n.v} rotation={[0.5, 0.6, 0]}>
           <boxGeometry args={[0.15, 0.15, 0.15]} />
           <meshBasicMaterial ref={(m) => { nodeMats.current[i] = m }} transparent />
         </mesh>

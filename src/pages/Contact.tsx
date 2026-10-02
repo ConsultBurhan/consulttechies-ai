@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { PageHeader } from '../components/PageHeader'
 import { Button } from '../components/Button'
 import { Reveal } from '../components/Reveal'
+import { OfficeGlobe } from '../components/sections/OfficeGlobe'
 import { useSeo } from '../hooks/useSeo'
 import { SITE } from '../content/site'
 
-const ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined
+const ENDPOINT = (import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined) || '/api/contact'
 type Status = 'idle' | 'sending' | 'sent' | 'unconfigured' | 'error'
 
 export default function Contact() {
@@ -23,11 +24,10 @@ export default function Contact() {
     if (!v.message?.trim()) er.message = 'Tell us a little about what you want to solve.'
     setErrors(er)
     if (Object.keys(er).length) { (e.currentTarget.querySelector('[aria-invalid="true"]') as HTMLElement | null)?.focus(); return }
-    if (!ENDPOINT) { setStatus('unconfigured'); return } // no backend configured: be honest, don't pretend
     setStatus('sending')
     try {
       const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(v) })
-      setStatus(r.ok ? 'sent' : 'error')
+      setStatus(r.ok ? 'sent' : r.status === 503 ? 'unconfigured' : 'error')
     } catch { setStatus('error') }
   }
 
@@ -42,8 +42,9 @@ export default function Contact() {
 
   return (
     <div className="page">
-      <PageHeader eyebrow="Contact" title={<>Let’s build something <em>intelligent.</em></>}
+      <PageHeader eyebrow="BCT / CONTACT" title={<>Let’s build something <em>intelligent.</em></>}
         lede="Tell us what your team spends time looking for. We’ll show you what it looks like when the organization can answer back." />
+      <OfficeGlobe />
       <section className="section contact">
         <div className="container contact__grid">
           <Reveal className="contact__aside">
@@ -80,10 +81,11 @@ export default function Contact() {
                   <textarea id="message" name="message" rows={5} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-e' : undefined} />
                   {errors.message && <p id="message-e" className="field__e">{errors.message}</p>}
                 </div>
+                <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hp" />
                 <Button type="submit" size="lg" arrow disabled={status === 'sending'}>{status === 'sending' ? 'Sending…' : 'Start the conversation'}</Button>
                 <div role="status" aria-live="polite">
                   {status === 'error' && <p className="notice notice--err">Something went wrong sending that. Please try again.</p>}
-                  {status === 'unconfigured' && <p className="notice notice--warn">This form isn’t connected to a mailbox yet, so nothing was sent. (Set VITE_CONTACT_ENDPOINT at build time to enable it.)</p>}
+                  {status === 'unconfigured' && <p className="notice notice--warn">This form isn’t connected to a mailbox yet, so nothing was sent. Please email us directly instead.</p>}
                 </div>
               </form>
             )}

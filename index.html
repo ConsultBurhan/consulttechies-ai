@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Babji Consult Techies — Enterprise AI that understands your business</title>
     <meta name="description" content="Babji Consult Techies builds enterprise AI that connects to your databases, documents and systems, so anyone can ask a business question and get a grounded answer, chart or report." />
-    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0e0f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#0b0d0f" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href="https://consulttechies.ai/" />
     <meta property="og:type" content="website" />
@@ -18,11 +17,11 @@
     <meta name="twitter:title" content="Babji Consult Techies — Enterprise AI that understands your business" />
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Babji Consult Techies","alternateName":"BCT","foundingDate":"2023","description":"IT solutions company specializing in web development, application development, CRM management and enterprise AI."}</script>
     <script>
-      // set theme before first paint: saved choice, else the OS preference
+      // set theme before first paint: saved choice, else dark (the primary expression)
       (function () {
         try {
           var t = localStorage.getItem('bct-theme');
-          if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          if (t !== 'light' && t !== 'dark') t = 'dark';
           document.documentElement.setAttribute('data-theme', t);
         } catch (e) {}
       })();
