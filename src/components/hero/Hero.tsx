@@ -117,7 +117,7 @@ export function Hero() {
           </div>
 
           <div className="hero__ctas">
-            <Button to="/contact" size="lg" arrow>Request a demo</Button>
+            <Button to="/contact#request" size="lg" arrow>Request a demo</Button>
             <Button to="/product" variant="ghost" size="lg">Explore the product</Button>
           </div>
         </div>

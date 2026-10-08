@@ -18,7 +18,7 @@ export function Footer() {
           <ul>{SERVICES.map((s) => <li key={s.title}><Link to="/product">{s.title}</Link></li>)}</ul></div>
         <div className="footer__contact"><h2 className="footer__h">Contact</h2>
           <ul>
-            <li><Link to="/contact">Request a demo</Link></li>
+            <li><Link to="/contact#request">Request a demo</Link></li>
             {email && <li><a href={`mailto:${email}`}>{email}</a></li>}
             {phone && <li><a href={`tel:${phone}`}>{phone.replace(/^(\+91)(\d{5})(\d{5})$/, '$1 $2 $3')}</a></li>}
             {linkedin && <li><a href={linkedin} rel="noopener noreferrer">LinkedIn</a></li>}

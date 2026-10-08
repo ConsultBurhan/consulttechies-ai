@@ -22,7 +22,7 @@ export function OfficeGlobe() {
         </div>
         <div className="globe__side">
           <span className="eyebrow">Two offices</span>
-          <h2 id="globe-title" className="display">Udaipur to Austin. <em>One team.</em></h2>
+          <h2 id="globe-title" className="display">Udaipur to the USA. <em>One team.</em></h2>
           <ul className="globe__offices">
             {SITE.offices.map((o, i) => (
               <li key={o.name}>

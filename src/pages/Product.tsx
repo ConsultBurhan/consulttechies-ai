@@ -24,7 +24,7 @@ export default function Product() {
     <div className="page">
       <PageHeader eyebrow="BCT / PRODUCT" title={<>An AI assistant that understands <em>how your business works.</em></>}
         lede="Context connects to your existing databases, documents and systems, then lets people interact with that information in natural language. Questions in. Answers, analysis and reports out.">
-        <div className="hero__ctas"><Button to="/contact" size="lg" arrow>Request a demo</Button><Button href="#demo" variant="ghost" size="lg">Try the simulation</Button></div>
+        <div className="hero__ctas"><Button to="/contact#request" size="lg" arrow>Request a demo</Button><Button href="#demo" variant="ghost" size="lg">Try the simulation</Button></div>
       </PageHeader>
 
       <section className="section" id="demo" aria-labelledby="pd-title">
@@ -37,7 +37,7 @@ export default function Product() {
       <LayerStack3D />
       <PredictionSection eyebrow="AI / FORECAST" />
 
-      <section className="section" aria-labelledby="cap-title">
+      <section className="section" id="capabilities" aria-labelledby="cap-title">
         <div className="container">
           <SectionHeading eyebrow="Capabilities" title={<span id="cap-title">What it actually <em>does.</em></span>} />
           <ul className="caps">
@@ -46,7 +46,7 @@ export default function Product() {
         </div>
       </section>
 
-      <section className="section section--tint" id="data" aria-labelledby="modes-title">
+      <section className="section section--tint" id="modes" aria-labelledby="modes-title">
         <div className="container">
           <SectionHeading eyebrow="Task modes" title={<span id="modes-title">Simple questions stay simple. <em>Complex ones get depth.</em></span>} lede="The assistant adapts its approach to the task. A quick lookup does not need heavy analysis. A quarterly review does." />
           <ul className="modecards">

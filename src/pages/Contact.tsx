@@ -45,7 +45,7 @@ export default function Contact() {
       <PageHeader eyebrow="BCT / CONTACT" title={<>Let’s build something <em>intelligent.</em></>}
         lede="Tell us what your team spends time looking for. We’ll show you what it looks like when the organization can answer back." />
       <OfficeGlobe />
-      <section className="section contact">
+      <section className="section contact" id="request">
         <div className="container contact__grid">
           <Reveal className="contact__aside">
             <h2>What happens next</h2>

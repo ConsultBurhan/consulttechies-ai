@@ -18,7 +18,7 @@ export function LayerStack3D() {
     e.currentTarget.style.setProperty('--rx', `${(58 - ((e.clientY - r.top) / r.height - 0.5) * 16).toFixed(1)}deg`)
   }
   return (
-    <section className="section ls3" aria-labelledby="ly-title">
+    <section className="section ls3" id="layer" aria-labelledby="ly-title">
       <div className="container">
         <SectionHeading eyebrow="BCT / THE INTELLIGENCE LAYER" title={<span id="ly-title">An AI layer for the <em>organization.</em></span>}
           lede="A chatbot answers questions. Context understands how your organization works, connects what you already have, and turns it into answers, reports and actions." />

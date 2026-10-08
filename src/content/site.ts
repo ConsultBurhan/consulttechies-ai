@@ -17,6 +17,7 @@ export const NAV = [
   { to: '/product', label: 'Product' },
   { to: '/solutions', label: 'Solutions' },
   { to: '/technology', label: 'Technology' },
+  { to: '/clients', label: 'Clients' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ] as const
