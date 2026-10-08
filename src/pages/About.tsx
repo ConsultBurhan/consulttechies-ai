@@ -1,27 +1,26 @@
 import { PageHeader } from '../components/PageHeader'
 import { Reveal } from '../components/Reveal'
-import { ServicesGrid } from '../components/sections/ServicesGrid'
-import { SectionHeading } from '../components/SectionHeading'
+import { JourneyStory, JourneyOneLine } from '../components/sections/JourneyStory'
 import { CTASection } from '../components/CTASection'
 import { LogoPrism } from '../components/LogoPrism'
 import { useSeo } from '../hooks/useSeo'
 import { SITE } from '../content/site'
 
-const AUDIENCE = [['Startups', 'who need a robust website'], ['Enterprises', 'who need a custom application'], ['Growing companies', 'who want to optimize their CRM processes']] as const
+const AUDIENCE = [['Enterprises', 'whose data lives in many systems'], ['Leadership teams', 'who want answers, not dashboards to dig through'], ['Growing companies', 'who want AI built around how they already work']] as const
 
 export default function About() {
-  useSeo({ title: 'About Us', path: '/about', description: 'Babji Consult Techies is an IT solutions company founded in 2023, specializing in web development, application development, CRM management and enterprise AI.' })
+  useSeo({ title: 'About Us', path: '/about', description: 'Babji Consult Techies is an AI company founded in 2023, building enterprise AI systems that turn an organization’s data, documents and systems into answers.' })
   return (
     <div className="page">
-      <PageHeader eyebrow="BCT / COMPANY" title={<>Accelerating growth with <em>innovative IT solutions.</em></>}
-        lede="Babji Consult Techies is a technology partner for businesses that want to elevate their digital presence and streamline how they operate." />
+      <PageHeader eyebrow="BCT / COMPANY" title={<>We build <em>AI systems</em> for business.</>}
+        lede="Babji Consult Techies builds AI systems that help organizations understand their own data and act on it." />
 
       <section className="section story" aria-label="Our story">
         <div className="container story__grid">
           <Reveal className="story__mark"><LogoPrism className="story__logo" /><p className="mono">Est. {SITE.founded}</p></Reveal>
           <div className="story__body">
             <Reveal><span className="eyebrow">Origin</span><h2 className="display">Founded in {SITE.founded}. <em>Trusted quickly.</em></h2>
-              <p className="muted">We started with a focus on web development, app development and CRM management, and a commitment to delivering excellence. Our team combines technical expertise with a close understanding of current industry trends, so clients get solutions that fit their needs.</p></Reveal>
+              <p className="muted">We build AI systems for organizations: assistants, data integration, knowledge systems and business intelligence that work from a company’s own information. Our team combines engineering depth with a close understanding of how businesses actually run.</p></Reveal>
             <Reveal><span className="eyebrow">Philosophy</span><blockquote className="display pull">Technology should simplify and empower businesses.</blockquote>
               <p className="muted">We aim for solutions that are technologically advanced, but also user-friendly and scalable. Capability people can actually use.</p></Reveal>
             <Reveal><span className="eyebrow">Approach</span><h2 className="display">Built around <em>your</em> business.</h2>
@@ -30,17 +29,13 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section section--tint" aria-labelledby="svc-title">
-        <div className="container">
-          <SectionHeading eyebrow="What we do" title={<span id="svc-title">Four things, <em>done properly.</em></span>} lede="From a first website to a company-wide intelligence layer." />
-          <ServicesGrid />
-        </div>
-      </section>
+      <JourneyStory />
+      <JourneyOneLine />
 
       <section className="section" aria-labelledby="fut-title">
         <div className="container future">
           <Reveal><span className="eyebrow">Where we’re heading</span><h2 id="fut-title" className="display">From software that stores information to <em>software that understands it.</em></h2></Reveal>
-          <Reveal delay={1}><p className="lede">Our enterprise AI assistant is the next step in that idea: connect an organization’s data, documents and systems, and let people simply ask. It is the same belief we started with. Technology should make business simpler.</p></Reveal>
+          <Reveal delay={1}><p className="lede">Our enterprise AI assistant is where that idea leads: connect an organization’s data, documents and systems, and let people simply ask. It is the same belief we started with. Technology should make business simpler.</p></Reveal>
         </div>
       </section>
       <CTASection variant="mark" title={<>Let’s build something <em>intelligent.</em></>} body="Tell us what you are trying to solve. We’ll start with the conversation." />

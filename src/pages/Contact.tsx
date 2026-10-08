@@ -10,7 +10,7 @@ const ENDPOINT = (import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined) |
 type Status = 'idle' | 'sending' | 'sent' | 'unconfigured' | 'error'
 
 export default function Contact() {
-  useSeo({ title: 'Contact — Request a Demo', path: '/contact', description: 'Talk to Babji Consult Techies about enterprise AI, web and application development, or CRM. Request a demo of the BCT enterprise AI assistant.' })
+  useSeo({ title: 'Contact — Request a Demo', path: '/contact', description: 'Talk to Babji Consult Techies about enterprise AI systems. Request a demo of the BCT enterprise AI assistant.' })
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -70,12 +70,6 @@ export default function Contact() {
               <form onSubmit={submit} noValidate>
                 <div className="row">{field('name', 'Name', { autoComplete: 'name', required: true })}{field('company', 'Company', { autoComplete: 'organization' }, true)}</div>
                 <div className="row">{field('email', 'Email', { type: 'email', autoComplete: 'email', required: true })}{field('phone', 'Phone', { type: 'tel', autoComplete: 'tel' }, true)}</div>
-                <div className="field">
-                  <label htmlFor="interest">What are you looking to solve?</label>
-                  <select id="interest" name="interest" defaultValue="Enterprise AI assistant">
-                    <option>Enterprise AI assistant</option><option>Web development</option><option>Application development</option><option>CRM solutions</option><option>Something else</option>
-                  </select>
-                </div>
                 <div className={`field ${errors.message ? 'field--err' : ''}`}>
                   <label htmlFor="message">Message</label>
                   <textarea id="message" name="message" rows={5} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-e' : undefined} />

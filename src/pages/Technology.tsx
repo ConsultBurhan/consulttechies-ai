@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { PageHeader } from '../components/PageHeader'
 import { TechnologySection } from '../components/sections/TechnologySection'
 import { KnowledgeFlow } from '../components/sections/KnowledgeFlow'
@@ -18,6 +19,7 @@ const STACK = [
 ] as const
 
 export default function Technology() {
+  const [openIdx, setOpenIdx] = useState(0)
   useSeo({ title: 'Technology & Architecture', path: '/technology', description: 'Architecture of the BCT enterprise AI assistant: agentic orchestration, retrieval-augmented generation, contextual memory and enterprise database connectivity.' })
   return (
     <div className="page">
@@ -28,7 +30,12 @@ export default function Technology() {
         <div className="container">
           <SectionHeading eyebrow="Components" title={<span id="stack-title">The parts, <em>explained plainly.</em></span>} />
           <div className="acc">
-            {STACK.map(([t, d], i) => <details key={t} name="stack" open={i === 0}><summary><span className="mono">0{i + 1}</span><h3>{t}</h3><i aria-hidden="true" /></summary><p className="muted">{d}</p></details>)}
+            {STACK.map(([t, d], i) => (
+              <details key={t} open={openIdx === i} onMouseEnter={() => setOpenIdx(i)} onFocus={() => setOpenIdx(i)}>
+                <summary onClick={(e) => { e.preventDefault(); setOpenIdx(i) }}><span className="mono">0{i + 1}</span><h3>{t}</h3><i aria-hidden="true" /></summary>
+                <p className="muted">{d}</p>
+              </details>
+            ))}
           </div>
           <p className="fine">Integrations and deployment are scoped with each organization. We do not claim support beyond what has been built and agreed.</p>
         </div>

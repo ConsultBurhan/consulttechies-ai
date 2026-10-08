@@ -22,8 +22,8 @@ export const NAV = [
 ] as const
 
 export const SERVICES = [
-  { title: 'Enterprise AI', body: 'Assistants, data integration, knowledge systems and business intelligence built around how your organization works.', tag: 'Flagship' },
-  { title: 'Web Development', body: 'Modern websites and web applications that are fast, clear and built to grow.' },
-  { title: 'Application Development', body: 'Custom software shaped by your business requirements, not the other way round.' },
-  { title: 'CRM Solutions', body: 'CRM management and optimization, so customer information works as hard as your team does.' },
+  { title: 'Enterprise AI assistants', body: 'Assistants that answer from your own data, documents and systems, built around how your organization works.', tag: 'Flagship' },
+  { title: 'Data integration', body: 'Secure connections to databases, files and business systems, so every answer starts from the source.' },
+  { title: 'Knowledge systems', body: 'Your documents and institutional knowledge, organized so people can simply ask.' },
+  { title: 'Business intelligence', body: 'Analysis, forecasts and reports generated on request, with the evidence behind them.' },
 ] as const

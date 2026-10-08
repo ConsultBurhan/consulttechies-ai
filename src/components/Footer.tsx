@@ -10,12 +10,12 @@ export function Footer() {
       <div className="container footer__grid">
         <div className="footer__about">
           <BrandLockup />
-          <p className="muted">An IT solutions company founded in {SITE.founded}, building web, application, CRM and enterprise AI technology for businesses that want to work differently.</p>
+          <p className="muted">An AI company founded in {SITE.founded}, building AI systems for businesses that want to work differently.</p>
         </div>
         <nav aria-label="Footer: explore"><h2 className="footer__h">Explore</h2>
           <ul>{NAV.map((n) => <li key={n.to}><Link to={n.to}>{n.label}</Link></li>)}</ul></nav>
-        <div><h2 className="footer__h">Services</h2>
-          <ul>{SERVICES.map((s) => <li key={s.title}><Link to={s.title === 'Enterprise AI' ? '/product' : '/about#services'}>{s.title}</Link></li>)}</ul></div>
+        <div><h2 className="footer__h">Capabilities</h2>
+          <ul>{SERVICES.map((s) => <li key={s.title}><Link to="/product">{s.title}</Link></li>)}</ul></div>
         <div className="footer__contact"><h2 className="footer__h">Contact</h2>
           <ul>
             <li><Link to="/contact">Request a demo</Link></li>
